@@ -1,0 +1,19 @@
+<!-- templates/olap.html -->
+<!DOCTYPE html>
+<html>
+<head><title>OLAP</title></head>
+<body>
+<h2>Total de escuchas por género y mes</h2>
+<table border="1">
+  <tr><th>Género</th><th>Año</th><th>Mes</th><th>Total</th></tr>
+  {% for fila in datos %}
+  <tr>
+    <td>{{ fila.genero }}</td>
+    <td>{{ fila.anio }}</td>
+    <td>{{ fila.mes }}</td>
+    <td>{{ fila.total }}</td>
+  </tr>
+  {% endfor %}
+</table>
+</body>
+</html>

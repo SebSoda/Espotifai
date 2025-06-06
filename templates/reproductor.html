@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Reproductor - MiniSpotify</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #121212;
+      color: #FFFFFF;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    .navbar {
+      background-color: #1db954;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+
+    .navbar-brand, .navbar-text {
+      color: #ffffff !important;
+      font-weight: bold;
+    }
+
+    .navbar .btn {
+      background-color: transparent;
+      border: 1px solid white;
+      color: white;
+      transition: all 0.3s ease;
+    }
+
+    .navbar .btn:hover {
+      background-color: white;
+      color: #1db954;
+    }
+
+    .section-title {
+      font-size: 1.7rem;
+      margin: 2rem 0 1rem;
+      border-left: 5px solid #1db954;
+      padding-left: 10px;
+    }
+
+    .card.song-card {
+      background: #181818;
+      border-radius: 15px;
+      padding: 20px;
+      height: 100%;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      color: white;
+    }
+
+    .card.song-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+    }
+
+    .btn-play {
+      background-color: #1db954;
+      border: none;
+      color: white;
+      font-weight: bold;
+      border-radius: 20px;
+      padding: 5px 15px;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn-play:hover {
+      background-color: #1ed760;
+    }
+
+    .song-meta {
+      font-size: 0.9rem;
+      color: #b3b3b3;
+    }
+
+    .container {
+      max-width: 1200px;
+    }
+  </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg px-4">
+  <a class="navbar-brand" href="#">🎵 MiniSpotify</a>
+  <a href="/graficos" class="btn btn-sm">Ver Gráficos</a>
+  <div class="ms-auto d-flex align-items-center gap-3">
+    <span class="navbar-text">👤 {{ nombre }} ({{ ciudad }})</span>
+    <a href="/" class="btn btn-sm">Cerrar sesión</a>
+  </div>
+</nav>
+
+<div class="container mt-4">
+  <div class="section-title">🎧 Recomendadas para ti</div>
+  <div class="row g-4">
+    {% for cancion in canciones %}
+      <div class="col-sm-6 col-md-4 col-lg-3">
+        <div class="card song-card">
+          <h5>{{ cancion.titulo }}</h5>
+          <p class="song-meta">👤 {{ cancion.artista }}</p>
+          <p class="song-meta">🎵 {{ cancion.genero }}</p>
+          <form method="POST" action="/reproducir">
+            <input type="hidden" name="cancion_id" value="{{ cancion.cancion_id }}">
+            <button type="submit" class="btn-play mt-2">▶️ Reproducir</button>
+            <p class="song-meta mt-1">🔁 {{ cancion.total_escuchas }} escuchas</p>
+          </form>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+
+  <div class="section-title">📀 Otras canciones</div>
+  <div class="row g-4">
+    {% for cancion in otras_canciones %}
+      <div class="col-sm-6 col-md-4 col-lg-3">
+        <div class="card song-card">
+          <h5>{{ cancion.titulo }}</h5>
+          <p class="song-meta">👤 {{ cancion.artista }}</p>
+          <p class="song-meta">🎵 {{ cancion.genero }}</p>
+          <form method="POST" action="/reproducir">
+            <input type="hidden" name="cancion_id" value="{{ cancion.cancion_id }}">
+            <button type="submit" class="btn btn-secondary btn-sm mt-2">▶️ Reproducir</button>
+          </form>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+</body>
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <div class="alert alert-success text-center" role="alert">
+      {{ messages[0] }}
+    </div>
+  {% endif %}
+{% endwith %}
+
+</html>
+

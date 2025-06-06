@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Escuchas</h2>
+<table class="table table-striped">
+  <thead>
+    <tr><th>Usuario</th><th>Fecha</th><th>Canción</th></tr>
+  </thead>
+  <tbody>
+    {% for e in escuchas %}
+    <tr><td>{{ e.usuario_id }}</td><td>{{ e.fecha_escucha }}</td><td>{{ e.cancion_id }}</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

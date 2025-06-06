@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Canciones</h2>
+<table class="table table-striped">
+  <thead>
+    <tr><th>ID</th><th>Título</th><th>Artista</th><th>Género</th></tr>
+  </thead>
+  <tbody>
+    {% for c in canciones %}
+    <tr><td>{{ c.cancion_id }}</td><td>{{ c.titulo }}</td><td>{{ c.artista }}</td><td>{{ c.genero }}</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

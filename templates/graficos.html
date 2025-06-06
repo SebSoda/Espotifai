@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Gráficos OLAP - MiniSpotify</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-dark text-white">
+
+<div class="container py-5">
+  <h2 class="mb-4">🎵 Escuchas por Género y Mes</h2>
+  <canvas id="graficoMes" height="150"></canvas>
+
+  <hr class="my-5">
+
+  <h2 class="mb-4">🎧 Total de Escuchas por Género</h2>
+  <canvas id="graficoGenero" height="150"></canvas>
+</div>
+
+<script>
+  // Datos por género y mes (agrupamos por género)
+  const datosMes = {{ datos_mes | tojson }};
+  const generos = [...new Set(datosMes.map(item => item.genero))];
+  const meses = [...new Set(datosMes.map(item => `${item.anio}-${item.mes}`))];
+
+  const datasets = generos.map(gen => {
+    const data = meses.map(m => {
+      const encontrado = datosMes.find(d => d.genero === gen && `${d.anio}-${d.mes}` === m);
+      return encontrado ? encontrado.total : 0;
+    });
+    return {
+      label: gen,
+      data: data,
+      borderWidth: 1
+    };
+  });
+
+  new Chart(document.getElementById('graficoMes'), {
+    type: 'bar',
+    data: {
+      labels: meses,
+      datasets: datasets
+    },
+    options: {
+      responsive: true,
+      scales: {
+        y: {
+          beginAtZero: true,
+          ticks: { color: 'white' },
+        },
+        x: {
+          ticks: { color: 'white' }
+        }
+      },
+      plugins: {
+        legend: {
+          labels: {
+            color: 'white'
+          }
+        }
+      }
+    }
+  });
+
+  // Total por género
+  const datosTotales = {{ datos_totales | tojson }};
+  new Chart(document.getElementById('graficoGenero'), {
+    type: 'pie',
+    data: {
+      labels: datosTotales.map(d => d.genero),
+      datasets: [{
+        label: 'Total escuchas',
+        data: datosTotales.map(d => d.total),
+        backgroundColor: ['#1db954', '#ff6384', '#36a2eb', '#ffce56', '#8e44ad', '#e67e22']
+      }]
+    },
+    options: {
+      plugins: {
+        legend: {
+          labels: { color: 'white' }
+        }
+      }
+    }
+  });
+</script>
+</body>
+</html>

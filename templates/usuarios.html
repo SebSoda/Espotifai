@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Usuarios</h2>
+<table class="table table-striped">
+  <thead>
+    <tr><th>ID</th><th>Nombre</th><th>Ciudad</th></tr>
+  </thead>
+  <tbody>
+    {% for u in usuarios %}
+    <tr><td>{{ u.usuario_id }}</td><td>{{ u.nombre }}</td><td>{{ u.ciudad }}</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
